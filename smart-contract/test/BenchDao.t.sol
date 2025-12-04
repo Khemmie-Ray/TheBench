@@ -2,10 +2,10 @@
 pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
-import {Counter} from "../src/Counter.sol";
+import {BenchDao} from "../src/BenchDao.sol";
 
 contract CounterTest is Test {
-    Counter public counter;
+    BenchDao public benchdao;
 
     function setUp() public {
         counter = new Counter();

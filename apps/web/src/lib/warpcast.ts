@@ -61,7 +61,7 @@ export async function getFarcasterManifest() {
       ogDescription: "TheBench is a decentralized verdict platform where users submit questions and a rotating on-chain jury delivers transparent, unbiased decisions.", // 100 characters, summarize core benefits in 1-2 lines
       screenshotUrls: [
         // 1284 x 2778, visual previews of the app, max 3 screenshots
-        `${appUrl}/opengraph-image.png`,
+        `${appUrl}/logo.png`,
       ],
       heroImageUrl: `${appUrl}/gavel.png`, // 1200 x 630px (1.91:1), promotional display image on top of the mini app store
       noindex,

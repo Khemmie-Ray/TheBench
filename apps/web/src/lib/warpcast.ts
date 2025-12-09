@@ -52,16 +52,17 @@ export async function getFarcasterManifest() {
       splashBackgroundColor: "#FFFFFF",
       webhookUrl: `${appUrl}/api/webhook`,
       // Metadata https://github.com/farcasterxyz/miniapps/discussions/191
-      subtitle: "TheBench is a decentralized verdict platform where users submit questions and a rotating on-chain jury delivers transparent, unbiased decisions.", // 30 characters, no emojis or special characters, short description under app name
+      subtitle: "TheBench - Verdict DApp", // 30 characters, no emojis or special characters, short description under app name
       description: "TheBench is a decentralized verdict platform where users submit questions and a rotating on-chain jury delivers transparent, unbiased decisions.", // 170 characters, no emojis or special characters, promotional message displayed on Mini App Page
       primaryCategory: "social",
       tags: ["mini-app", "celo"], // up to 5 tags, filtering/search tags
       tagline: "Built on Celo", // 30 characters, marketing tagline should be punchy and descriptive
       ogTitle: `${frameName}`, // 30 characters, app name + short tag, Title case, no emojis
-      ogDescription: "TheBench is a decentralized verdict platform where users submit questions and a rotating on-chain jury delivers transparent, unbiased decisions.", // 100 characters, summarize core benefits in 1-2 lines
+      ogDescription: "TheBench - Clear insights, fair decisions.", // 100 characters, summarize core benefits in 1-2 lines
       screenshotUrls: [
         // 1284 x 2778, visual previews of the app, max 3 screenshots
-        `${appUrl}/logo.png`,
+        `${appUrl}/SS1.png`,
+        `${appUrl}/SS.png`,
       ],
       heroImageUrl: `${appUrl}/gavel.png`, // 1200 x 630px (1.91:1), promotional display image on top of the mini app store
       noindex,

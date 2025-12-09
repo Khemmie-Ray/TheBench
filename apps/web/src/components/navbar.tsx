@@ -26,7 +26,7 @@ export function Navbar() {
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4">
           <Link href='/' className="flex items-center">
           <Image
-            src="https://res.cloudinary.com/dy7el0ucd/image/upload/v1765131242/tb-mark_bcrtkz.svg"
+            src="https://res.cloudinary.com/dy7el0ucd/image/upload/v1765306071/tb-mark_upizhl.png"
             alt=""
             width={50}
             height={50}
@@ -46,7 +46,7 @@ export function Navbar() {
             <SheetContent side="left" className="w-80">
               <div className="flex items-center gap-2 mb-8">
                 <Image
-                  src="https://res.cloudinary.com/dy7el0ucd/image/upload/v1765131242/tb-mark_bcrtkz.svg"
+                  src="https://res.cloudinary.com/dy7el0ucd/image/upload/v1765306071/tb-mark_upizhl.png"
                   alt=""
                   width={50}
                   height={50}

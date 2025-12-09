@@ -44,11 +44,11 @@ export async function getFarcasterManifest() {
     miniapp: {
       version: "1",
       name: frameName,
-      iconUrl: `${appUrl}/icon.png`,
+      iconUrl: `${appUrl}/mark.png`,
       homeUrl: appUrl,
       imageUrl: `${appUrl}/opengraph-image.png`,
       buttonTitle: `Launch App`,
-      splashImageUrl: `${appUrl}/opengraph-image.png`,
+      splashImageUrl: `${appUrl}/mark.png`,
       splashBackgroundColor: "#FFFFFF",
       webhookUrl: `${appUrl}/api/webhook`,
       // Metadata https://github.com/farcasterxyz/miniapps/discussions/191
@@ -63,7 +63,7 @@ export async function getFarcasterManifest() {
         // 1284 x 2778, visual previews of the app, max 3 screenshots
         `${appUrl}/opengraph-image.png`,
       ],
-      heroImageUrl: `${appUrl}/opengraph-image.png`, // 1200 x 630px (1.91:1), promotional display image on top of the mini app store
+      heroImageUrl: `${appUrl}/gavel.png`, // 1200 x 630px (1.91:1), promotional display image on top of the mini app store
       noindex,
     },
   };

@@ -16,7 +16,7 @@ const Home = () => {
             next move.
           </p>
           <Image
-            src="https://res.cloudinary.com/dy7el0ucd/image/upload/v1765135364/gavel_elbnbr.svg"
+            src="https://res.cloudinary.com/dy7el0ucd/image/upload/v1765306072/gavel_nohw0b.png"
             alt=""
             width={200}
             height={200}

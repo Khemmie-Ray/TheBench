@@ -46,7 +46,7 @@ export async function getFarcasterManifest() {
       name: frameName,
       iconUrl: `${appUrl}/mark.png`,
       homeUrl: appUrl,
-      imageUrl: `${appUrl}/opengraph-image.png`,
+      imageUrl: `${appUrl}/logo.png`,
       buttonTitle: `Launch App`,
       splashImageUrl: `${appUrl}/mark.png`,
       splashBackgroundColor: "#FFFFFF",

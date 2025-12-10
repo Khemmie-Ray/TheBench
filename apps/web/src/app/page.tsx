@@ -30,7 +30,7 @@ const Home = () => {
               Seek
             </Link>
             <Link
-              href="/assessor"
+              href="/"
               className="p-3 rounded-lg border shadow-lg border-[#1A1A1A]/50 text-[#1A1A1A] font-bold w-[48%] hover:bg-[#E5E5E5] hover:border-none"
             >
               Assessor

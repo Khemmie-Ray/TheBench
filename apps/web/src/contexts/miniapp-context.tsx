@@ -53,16 +53,26 @@ export function MiniAppProvider({ children, addMiniAppOnLoad }: MiniAppProviderP
     }
   }, [isMiniAppReady, setMiniAppReady]);
 
-  const handleAddMiniApp = useCallback(async () => {
+  // const handleAddMiniApp = useCallback(async () => {
+  //   try {
+  //     const result = await sdk.actions.addFrame();
+  //     if (result) {
+  //       return result;
+  //     }
+  //     return null;
+  //   } catch (error) {
+  //     console.error("[error] adding frame", error);
+  //     return null;
+  //   }
+  // }, []);
+
+  const handleAddMiniApp = useCallback(async (): Promise<AddFrameResult> => {
     try {
       const result = await sdk.actions.addFrame();
-      if (result) {
-        return result;
-      }
-      return null;
+      return result ?? { success: false }; // provide default object
     } catch (error) {
       console.error("[error] adding frame", error);
-      return null;
+      return { success: false }; // fallback
     }
   }, []);
 

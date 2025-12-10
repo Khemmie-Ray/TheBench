@@ -1,0 +1,222 @@
+[
+  {
+    "type": "function",
+    "name": "MAX_VERDICTS",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "createQuestion",
+    "inputs": [
+      { "name": "_ask", "type": "string", "internalType": "string" },
+      { "name": "_optionA", "type": "string", "internalType": "string" },
+      { "name": "_optionB", "type": "string", "internalType": "string" }
+    ],
+    "outputs": [
+      { "name": "qId", "type": "uint256", "internalType": "uint256" }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "getAnalytics",
+    "inputs": [
+      { "name": "_qId", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [
+      { "name": "totalVotes", "type": "uint256", "internalType": "uint256" },
+      { "name": "votesForA", "type": "uint256", "internalType": "uint256" },
+      { "name": "votesForB", "type": "uint256", "internalType": "uint256" },
+      { "name": "isClosed", "type": "bool", "internalType": "bool" },
+      { "name": "remainingSlots", "type": "uint256", "internalType": "uint256" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getComments",
+    "inputs": [
+      { "name": "_qId", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [
+      { "name": "authors", "type": "address[]", "internalType": "address[]" },
+      { "name": "choseA", "type": "bool[]", "internalType": "bool[]" },
+      { "name": "texts", "type": "string[]", "internalType": "string[]" },
+      { "name": "timestamps", "type": "uint256[]", "internalType": "uint256[]" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getQuestion",
+    "inputs": [
+      { "name": "_qId", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [
+      { "name": "seeker", "type": "address", "internalType": "address" },
+      { "name": "ask", "type": "string", "internalType": "string" },
+      { "name": "optionA", "type": "string", "internalType": "string" },
+      { "name": "optionB", "type": "string", "internalType": "string" },
+      { "name": "verdictCount", "type": "uint256", "internalType": "uint256" },
+      { "name": "votesForA", "type": "uint256", "internalType": "uint256" },
+      { "name": "votesForB", "type": "uint256", "internalType": "uint256" },
+      { "name": "isOpen", "type": "bool", "internalType": "bool" },
+      { "name": "createdAt", "type": "uint256", "internalType": "uint256" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "hasVoted",
+    "inputs": [
+      { "name": "", "type": "uint256", "internalType": "uint256" },
+      { "name": "", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "nextUnvotedQuestion",
+    "inputs": [
+      { "name": "juror", "type": "address", "internalType": "address" },
+      { "name": "startFrom", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [
+      { "name": "found", "type": "bool", "internalType": "bool" },
+      { "name": "qId", "type": "uint256", "internalType": "uint256" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "questions",
+    "inputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "outputs": [
+      { "name": "seeker", "type": "address", "internalType": "address" },
+      { "name": "ask", "type": "string", "internalType": "string" },
+      { "name": "optionA", "type": "string", "internalType": "string" },
+      { "name": "optionB", "type": "string", "internalType": "string" },
+      { "name": "verdictCount", "type": "uint256", "internalType": "uint256" },
+      { "name": "round", "type": "uint8", "internalType": "uint8" },
+      { "name": "votesForA", "type": "uint256", "internalType": "uint256" },
+      { "name": "votesForB", "type": "uint256", "internalType": "uint256" },
+      { "name": "exists", "type": "bool", "internalType": "bool" },
+      { "name": "createdAt", "type": "uint256", "internalType": "uint256" }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "totalQuestions",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "vote",
+    "inputs": [
+      { "name": "_qId", "type": "uint256", "internalType": "uint256" },
+      { "name": "_chooseA", "type": "bool", "internalType": "bool" },
+      { "name": "_comment", "type": "string", "internalType": "string" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "QuestionClosed",
+    "inputs": [
+      {
+        "name": "qId",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "votesForA",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "votesForB",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "QuestionCreated",
+    "inputs": [
+      {
+        "name": "qId",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "seeker",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "ask",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      },
+      {
+        "name": "optionA",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      },
+      {
+        "name": "optionB",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Voted",
+    "inputs": [
+      {
+        "name": "qId",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "juror",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "choseA",
+        "type": "bool",
+        "indexed": false,
+        "internalType": "bool"
+      },
+      {
+        "name": "comment",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      }
+    ],
+    "anonymous": false
+  }
+]

@@ -19,7 +19,6 @@ const navLinks = [
 export function Navbar() {
   const pathname = usePathname();
   const { isConnected } = useAccount();
-  console.log(isConnected)
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60 lg:py-4 md:py-4">

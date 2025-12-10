@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-
+import { Toaster } from "sonner";
 import { Navbar } from '@/components/navbar';
 import Providers from "@/components/providers"
 
@@ -52,6 +52,7 @@ export default function RootLayout({
             <Navbar />
             <main className="flex-1">
               {children}
+              <Toaster />
             </main>
           </Providers>
         </div>

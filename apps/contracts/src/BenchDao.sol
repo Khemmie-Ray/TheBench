@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-contract BenchDao {
+contract Bench {
     uint public constant MAX_VERDICTS = 12;
 
     struct Question {

@@ -3,6 +3,7 @@ import {
     useWaitForTransactionReceipt,
   } from "wagmi";
   import type { Address } from "viem";
+  import { celoSepolia, celo } from "viem/chains";
   
   const CONTRACT_ADDRESS: Address =
     "0x9f0997c0CD7E5C7Db88f96973f54ed37C3ecA9Fa";
@@ -49,6 +50,7 @@ import {
   
       try {
         const txHash = await writeContractAsync({
+          chainId: celoSepolia.id,  
           address: CONTRACT_ADDRESS,
           abi: CONTRACT_ABI,
           functionName: "createQuestion",

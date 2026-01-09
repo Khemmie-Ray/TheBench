@@ -67,9 +67,10 @@ export function Navbar() {
                     {link.name}
                   </Link>
                 ))}
-                {!isConnected && <div className="mt-6 pt-6 border-t">
+                {!isConnected &&  <div className="mt-6 pt-6 border-t">
                   <Button className="w-full">Connect Wallet</Button>
                 </div>}
+
               </nav>
             </SheetContent>
           </Sheet>

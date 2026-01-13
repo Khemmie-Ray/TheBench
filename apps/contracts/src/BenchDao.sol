@@ -1,41 +1,65 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-contract Bench {
+contract BenchDao {
     uint public constant MAX_VERDICTS = 12;
+
+    enum QuestionStatus {
+        Active,
+        Closed
+    }
 
     struct Question {
         address seeker;
         string ask;
         string optionA;
         string optionB;
-        uint verdictCount; 
-        uint8 round;    
-        uint votesForA;        
-        uint votesForB;       
-        bool exists;
+        uint verdictCount;
+        uint8 round;
+        uint votesForA;
+        uint votesForB;
+        QuestionStatus status;
         uint createdAt;
     }
 
     struct Comment {
         address author;
-        bool choseA;    
-        string text; 
+        bool choseA;
+        string text;
         uint timestamp;
     }
 
     Question[] public questions;
     mapping(uint => Comment[]) private questionComments;
+    mapping(uint => mapping(address => bool)) public voterChoice;
     mapping(uint => mapping(address => bool)) public hasVoted;
+    mapping(address => uint[]) private questionsBySeeker;
 
-    event QuestionCreated(uint indexed qId, address indexed seeker, string ask, string optionA, string optionB);
-    event Voted(uint indexed qId, address indexed juror, bool choseA, string comment);
+    event QuestionCreated(
+        uint indexed qId,
+        address indexed seeker,
+        string ask,
+        string optionA,
+        string optionB
+    );
+    event Voted(
+        uint indexed qId,
+        address indexed juror,
+        bool choseA,
+        string comment
+    );
     event QuestionClosed(uint indexed qId, uint votesForA, uint votesForB);
 
-
-    function createQuestion(string calldata _ask, string calldata _optionA, string calldata _optionB) external returns (uint qId) {
+    function createQuestion(
+        string calldata _ask,
+        string calldata _optionA,
+        string calldata _optionB
+    ) external returns (uint qId) {
         require(bytes(_ask).length > 0, "Question text required");
-        require(bytes(_optionA).length > 0 && bytes(_optionB).length > 0, "Both options required");
+        require(
+            bytes(_optionA).length > 0 && bytes(_optionB).length > 0,
+            "Both options required"
+        );
 
         Question memory q = Question({
             seeker: msg.sender,
@@ -43,15 +67,17 @@ contract Bench {
             optionA: _optionA,
             optionB: _optionB,
             verdictCount: 0,
-            round: 1, 
+            round: 1,
             votesForA: 0,
             votesForB: 0,
-            exists: true,
+            status: QuestionStatus.Active,
             createdAt: block.timestamp
         });
 
         questions.push(q);
         qId = questions.length - 1;
+
+        questionsBySeeker[msg.sender].push(qId);
 
         emit QuestionCreated(qId, msg.sender, _ask, _optionA, _optionB);
     }
@@ -59,24 +85,30 @@ contract Bench {
     function vote(uint _qId, bool _chooseA, string calldata _comment) external {
         require(_qId < questions.length, "Invalid question id");
         Question storage q = questions[_qId];
-        require(q.exists, "Question not found");
+        require(q.status == QuestionStatus.Active, "Question is closed");
+        require(msg.sender != q.seeker, "Question owner cannot vote");
         require(!hasVoted[_qId][msg.sender], "Already voted");
 
         uint maxVotes = (q.round == 1) ? 12 : 18;
         require(q.verdictCount < maxVotes, "Voting closed");
 
         hasVoted[_qId][msg.sender] = true;
+        voterChoice[_qId][msg.sender] = _chooseA; // Track voter's choice
         q.verdictCount++;
 
         if (_chooseA) q.votesForA++;
         else q.votesForB++;
 
-        questionComments[_qId].push(Comment({
-            author: msg.sender,
-            choseA: _chooseA,
-            text: _comment,
-            timestamp: block.timestamp
-        }));
+        if (bytes(_comment).length > 0) {
+            questionComments[_qId].push(
+                Comment({
+                    author: msg.sender,
+                    choseA: _chooseA,
+                    text: _comment,
+                    timestamp: block.timestamp
+                })
+            );
+        }
 
         emit Voted(_qId, msg.sender, _chooseA, _comment);
 
@@ -84,11 +116,13 @@ contract Bench {
             if (q.votesForA == q.votesForB) {
                 q.round = 2;
             } else {
+                q.status = QuestionStatus.Closed;
                 emit QuestionClosed(_qId, q.votesForA, q.votesForB);
             }
         }
 
         if (q.verdictCount == 18 && q.round == 2) {
+            q.status = QuestionStatus.Closed;
             emit QuestionClosed(_qId, q.votesForA, q.votesForB);
         }
     }
@@ -97,38 +131,41 @@ contract Bench {
         return questions.length;
     }
 
-    function getQuestion(uint _qId) external view returns (
-        address seeker,
-        string memory ask,
-        string memory optionA,
-        string memory optionB,
-        uint verdictCount,
-        uint votesForA,
-        uint votesForB,
-        bool isOpen,
-        uint createdAt
-    ) {
-        require(_qId < questions.length, "Invalid question id");
-        Question storage q = questions[_qId];
-        seeker = q.seeker;
-        ask = q.ask;
-        optionA = q.optionA;
-        optionB = q.optionB;
-        verdictCount = q.verdictCount;
-        votesForA = q.votesForA;
-        votesForB = q.votesForB;
-        uint maxVotes = (q.round == 1) ? 12 : 18;
-        isOpen = (q.verdictCount < maxVotes);
-        createdAt = q.createdAt;
+    function getQuestionIdsBySeeker(
+        address _seeker
+    ) external view returns (uint[] memory) {
+        return questionsBySeeker[_seeker];
     }
 
-    function getAnalytics(uint _qId) external view returns (
-        uint totalVotes,
-        uint votesForA,
-        uint votesForB,
-        bool isClosed,
-        uint remainingSlots
-    ) {
+    function getQuestion(uint _qId) external view returns (Question memory) {
+        require(_qId < questions.length, "Invalid question id");
+        return questions[_qId];
+    }
+
+    function getQuestionsByIds(
+        uint[] calldata _qIds
+    ) external view returns (Question[] memory) {
+        Question[] memory result = new Question[](_qIds.length);
+        for (uint i = 0; i < _qIds.length; i++) {
+            require(_qIds[i] < questions.length, "Invalid question id");
+            result[i] = questions[_qIds[i]];
+        }
+        return result;
+    }
+
+    function getAnalytics(
+        uint _qId
+    )
+        external
+        view
+        returns (
+            uint totalVotes,
+            uint votesForA,
+            uint votesForB,
+            bool isClosed,
+            uint remainingSlots
+        )
+    {
         require(_qId < questions.length, "Invalid question id");
         Question storage q = questions[_qId];
         totalVotes = q.verdictCount;
@@ -136,15 +173,23 @@ contract Bench {
         votesForB = q.votesForB;
         uint maxVotes = (q.round == 1) ? 12 : 18;
         isClosed = (q.verdictCount >= maxVotes);
-        remainingSlots = (q.verdictCount >= maxVotes) ? 0 : (maxVotes - q.verdictCount);
+        remainingSlots = (q.verdictCount >= maxVotes)
+            ? 0
+            : (maxVotes - q.verdictCount);
     }
 
-    function getComments(uint _qId) external view returns (
-        address[] memory authors,
-        bool[] memory choseA,
-        string[] memory texts,
-        uint[] memory timestamps
-    ) {
+    function getComments(
+        uint _qId
+    )
+        external
+        view
+        returns (
+            address[] memory authors,
+            bool[] memory choseA,
+            string[] memory texts,
+            uint[] memory timestamps
+        )
+    {
         require(_qId < questions.length, "Invalid question id");
         uint len = questionComments[_qId].length;
         authors = new address[](len);
@@ -161,14 +206,18 @@ contract Bench {
         }
     }
 
-    function nextUnvotedQuestion(address juror, uint startFrom) external view returns (bool found, uint qId) {
+    function nextUnvotedQuestion(
+        address juror
+    ) external view returns (bool found, uint qId) {
         uint total = questions.length;
-        if (startFrom >= total) return (false, 0);
 
-        for (uint i = startFrom; i < total; i++) {
+        for (uint i = 0; i < total; i++) {
             Question storage q = questions[i];
-            uint maxVotes = (q.round == 1) ? 12 : 18;
-            if (q.exists && q.verdictCount < maxVotes && !hasVoted[i][juror]) {
+            if (
+                q.status == QuestionStatus.Active &&
+                !hasVoted[i][juror] &&
+                q.seeker != juror
+            ) {
                 return (true, i);
             }
         }

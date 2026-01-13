@@ -4,7 +4,7 @@ import { useMiniApp } from "@/contexts/miniapp-context";
 import { useEffect } from "react";
 import { useAccount, useConnect } from "wagmi";
 
-const Profile = () => {
+const UserProfile = () => {
   const { context, isMiniAppReady } = useMiniApp();
 
   // Wallet connection hooks
@@ -105,4 +105,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UserProfile;

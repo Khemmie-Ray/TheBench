@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
-import Profile from "@/components/pages/Profile";
+import UserProfile from "@/components/pages/UserProfile";
 import { useAccount } from "wagmi";
 
 import { Button } from "@/components/ui/button";
@@ -52,7 +52,7 @@ export function Navbar() {
                 />
                 <p>TheBench</p>
               </div>
-              <Profile />
+              <UserProfile />
               <nav className="flex flex-col gap-4">
                 {navLinks.map((link) => (
                   <Link
@@ -98,7 +98,7 @@ export function Navbar() {
             <Button variant="outline" size="sm">
               Connect Wallet
             </Button>
-          </div> : <Profile />}
+          </div> : <UserProfile />}
         </nav>
       </div>
     </header>
